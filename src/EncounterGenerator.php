@@ -13,14 +13,14 @@ class EncounterGenerator {
      * @param array $pokemonRepartitionList Liste des différents id de pokémons
      * classés par coefficient de fréquence, de la forme :
      * [
-     *     1 => [1, 2, 3, 4, 5], // coefficient 1, les plus rares
-     *     4 => [104], // 4 fois plus rare que ceux du dessus
-     *     10 => [150, 151], // 10 fois plus rares que ceux du dessus
+     *     1 => ['1', '2', '3', '4', '5'], // coefficient 1, les plus rares
+     *     4 => ['104'], // 4 fois plus rare que ceux du dessus
+     *     10 => ['150', '151'], // 10 fois plus rares que ceux du dessus
      * ]
      *
      * Les coefficients doivent être des entiers positifs.
      */
-    public function __construct($pokemonRepartitionList) {
+    public function __construct($pokemonRepartitionList = []) {
         $this->checkRepartitionList($pokemonRepartitionList);
         $this->pokemonRepartitionList = $pokemonRepartitionList;
         $this->generateEncounterPossibilities();
@@ -86,8 +86,8 @@ class EncounterGenerator {
 
     /**
      * Retourne le pokémon rencontré pour un ID de post particulier.
-     * @return mixed ID du pokémon rencontré ou null s'il n'y a pas de recontre
-     *         pour cet ID.
+     * @return string ID du pokémon rencontré ou null s'il n'y a pas de
+     *         rencontre pour cet ID.
      * @throws \Exception si la taille du tableau des rencontre potentielles
      *         n'est pas une puissance de deux.
      */
@@ -99,7 +99,8 @@ class EncounterGenerator {
         }
 
         // Élimine les trois derniers bits de l'ID du post.
-        // Résout les problèmes liés au sharding des forums jeuxvideo.com.
+        // Résout les problèmes liés au fait que l'écart minimum entre deux ID
+        // de messages d'un même topic est de 8 sur les forums de jeuxvideo.com.
         $bits = $postId >> 3;
         $index = $bits & (1 << log(count($this->encounterPossibilities), 2)) - 1;
 
@@ -108,5 +109,25 @@ class EncounterGenerator {
 
     private static function isPowerOfTwo($number) {
         return !($number & ($number - 1));
+    }
+
+    /**
+     * Retourne le taux de rencontre du pokémon d'id passé en paramètre.
+     *
+     * @param string $pokemonId
+     * @return float Taux de rencontre entre 0 et 1.
+     */
+    public function getEncounterRate($pokemonId) {
+
+        $pokemonCount = count($this->encounterPossibilities);
+        // On retire les éléments null pour pouvoir utiliser array_count_values.
+        $pokemonOccurenceList = array_count_values(array_filter($this->encounterPossibilities));
+
+        $rate = 0;
+        if (isset($pokemonOccurenceList[$pokemonId]) && $pokemonCount > 0) {
+            $rate = $pokemonOccurenceList[$pokemonId] / $pokemonCount;
+        }
+
+        return $rate;
     }
 }
