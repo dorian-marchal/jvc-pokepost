@@ -1,0 +1,289 @@
+<?xml version="1.0"?>
+<ruleset name="JVC Pokémon">
+    <description>The PHP coding standard for JVC Pokémon.</description>
+
+
+
+    <!-- FILES -->
+
+    <!-- Files MUST begin with the opening tag `<?php`; the short open tag `<?`
+         MUST NOT be used. -->
+    <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag"/>
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+
+    <!-- Files MUST NOT use any closing tag `?>`. -->
+    <rule ref="PSR2.Files.ClosingTag"/>
+
+    <!-- Files MUST be encoded in UTF-8 without BOM. -->
+    <rule ref="Generic.Files.ByteOrderMark"/>
+
+    <!-- Files MUST use the Unix newline character (`\n`). -->
+    <rule ref="Generic.Files.LineEndings">
+        <properties>
+            <property name="eolChar" value="\n"/>
+        </properties>
+    </rule>
+
+    <!-- Files MUST end with a single blank line. -->
+    <rule ref="Generic.Files.EndFileNewline"/>
+
+    <!-- Lines MUST NOT have trailing whitespace. -->
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.StartFile">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EndFile">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EmptyLines">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Files SHOULD *either* declare symbols (classes, functions, constants,
+         etc.) *or* cause side-effects (e.g. generate output, change .ini
+         settings, modify stored data, etc.) but SHOULD NOT do both. This
+         doesn't apply to command-line script. -->
+    <rule ref="PSR1.Files.SideEffects"/>
+
+
+
+    <!-- CASING -->
+
+    <!-- Namespaces names MUST be in `lowercase` without underscores. -->
+    <!-- UNCHECKED. -->
+
+    <!-- Constants MUST be in `ALL_UPPER_CASE` with underscores. -->
+    <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+
+    <!-- Class names MUST be in `PascalCase`. -->
+    <rule ref="Squiz.Classes.ValidClassName"/>
+
+    <!-- Function names MUST be in `camelCase`. -->
+    <rule ref="Squiz.NamingConventions.ValidFunctionName"/>
+    <rule ref="Squiz.NamingConventions.ValidFunctionName.PrivateNoUnderscore">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Variable names MUST be in `snake_case`. -->
+    <!-- UNCHECKED. -->
+
+    <!-- In `PascalCase` and `camelCase` names, acronyms don't keep their
+         uppercasing. -->
+    <!-- UNCHECKED. -->
+
+    <!-- Function and class references MUST use the casing used in their
+         declarations or in the documentation. -->
+    <rule ref="Squiz.PHP.LowercasePHPFunctions"/>
+
+    <!-- PHP keywords MUST be written in lowercase, including constants `true`,
+         `false` and `null`. -->
+    <rule ref="Generic.PHP.LowerCaseKeyword"/>
+    <rule ref="Generic.PHP.LowerCaseConstant"/>
+
+
+
+    <!-- NAMING -->
+    <!-- UNCHECKED. -->
+
+
+
+    <!-- SPACING -->
+
+    <!-- Code MUST use 4 spaces for indenting, not tabs. -->
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+    <rule ref="Generic.WhiteSpace.ScopeIndent"/>
+
+    <!-- Control structures MUST have one space before the opening parenthesis;
+         functions and function-like language constructs MUST NOT. -->
+    <!-- Opening braces for classes, functions and control structures MUST go on
+         the same line with a preceding space, and closing braces MUST go on the
+         next line after the body. -->
+    <!-- Function declarations MUST NOT be written in one line, except for empty
+         functions and simple anonymous functions. -->
+    <rule ref="Squiz.ControlStructures.ControlSignature"/>
+    <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
+
+    <!-- Closure `use` keyword MUST have one space before and one space
+         after. -->
+    <!-- UNCHECKED. -->
+
+    <!-- Brackets of all type `() [] {}` MUST NOT be separated from their
+         content when it doesn't spread over multiple lines. -->
+    <!-- UNCHECKED, except casting operator. -->
+    <rule ref="Squiz.WhiteSpace.CastSpacing"/>
+
+    <!-- Binary operators MUST have one space before and one space after, except
+         for Scope Resolution Operator `::`, Object Operator `->` and Namespace
+         Separator `\`. -->
+    <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+    <!-- UNCHECKED: `::`, `->` and `\`. -->
+
+    <!-- Unary operators MUST NOT be separated from their operand, except for
+         type casting operators. -->
+    <!-- UNCHECKED, except casting operator. -->
+    <rule ref="Generic.Formatting.SpaceAfterCast"/>
+
+    <!-- Separators MUST NOT be preceded by a space: semicolons and commas. -->
+    <!-- UNCHECKED: comma. -->
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+
+    <!-- The `switch` structure MUST be indented as follows:
+         The `case` keyword by one level.
+         The statement block one level further.
+         The `break` keyword at the same level as the statement block. -->
+    <!-- Already checked in Generic.WhiteSpace.ScopeIndent, except for `break`
+         keyword indent level. -->
+
+
+
+    <!-- LINE BREAKS -->
+
+    <!-- Lines SHOULD NOT be more than 80-character long. Longer lines are
+         allowed when there isn't any obvious way to split them or when it
+         would result in less readable code. -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="80"/>
+            <property name="absoluteLineLimit" value="0"/>
+        </properties>
+    </rule>
+
+    <!-- Sequences of function arguments or array items that spread over
+         multiple lines MUST use either a "vertical" layout or a "hanging"
+         layout, as defined below. -->
+    <!-- Other layouts MUST NOT be used. -->
+    <!-- UNCHECKED. -->
+
+    <!-- In an expression spreading over multiple lines, continuing lines MUST
+         be indented by one level, unless the expression is alone in its
+         indentation block in which case they MAY not be indented. Conditions
+         of `if` and `while` constructs are always alone in their indentation
+         block: their continuing lines MUST NOT be indented. -->
+    <!-- UNCHECKED. -->
+
+
+
+    <!-- COMMENTS -->
+
+    <!-- Documentation comments MUST follow the phpDoc standard. -->
+    <!-- Functions, classes, class properties SHOULD have a documentation
+         comment. -->
+    <!-- <rule ref="Generic.Commenting.DocComment"/> -->
+    <rule ref="Squiz.Commenting.DocCommentAlignment"/>
+
+    <!-- Non-documentation comments SHOULD use line comment syntax `//`, even
+         if they spread over multiple lines. -->
+    <!-- UNCHECKED. -->
+
+    <!-- Comments MUST have the same indentation level as the commented
+         code. -->
+    <!-- UNCHECKED. -->
+
+    <!-- Trailing comments SHOULD be avoided; comments SHOULD appear just above
+         the commented code. -->
+    <!-- UNCHECKED. -->
+
+    <!-- Code SHOULD not be left commented out. -->
+    <rule ref="Squiz.PHP.CommentedOutCode"/>
+
+
+
+    <!-- CONTROL STRUCTURES -->
+
+    <!-- Control structures MUST NOT use one-statement inline syntax; braces
+         MUST always be present (except for `switch`'s `case` blocks that never
+         use braces). -->
+    <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+
+    <!-- `elseif` MUST be used instead of `else if`. -->
+    <rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
+
+
+
+    <!-- STRINGS -->
+
+    <!-- Strings MUST be enclosed in simple quotes `'` unless they need to use
+         escape sequences or variable interpolation, in which case double quotes
+         `"` MUST be used. -->
+    <!-- UNCHECKED. -->
+
+    <!-- Heredoc and Nowdoc syntaxes MUST NOT be used. -->
+    <rule ref="Squiz.PHP.Heredoc"/>
+
+
+
+    <!-- STRING FORMATTING -->
+
+    <!-- UNCHECKED. -->
+
+
+
+    <!-- CLASSES -->
+
+    <!-- UNCHECKED. -->
+
+
+
+    <!-- ARRAYS -->
+
+    <!-- Arrays MUST be declared using the short notation. -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
+    <!-- Arrays SHOULD be either associative or numeric but not both. -->
+    <!-- UNCHECKED. -->
+
+    <!-- Multi-line array definitions MUST include an additional trailing
+         comma. -->
+    <!-- UNCHECKED. -->
+
+    <!-- Arrays key lookups MUST NOT be abused. -->
+    <!-- UNCHECKED. -->
+
+    <!-- Array functions `map`, `filter` and `reduce` SHOULD be preferred over
+        imperative loops. -->
+    <!-- UNCHECKED. -->
+
+
+    <!-- MISC -->
+
+    <!-- PHP standard library functions aliases MUST NOT be used. -->
+    <!-- `echo` MUST be used instead of `print`. -->
+    <!-- The following functions must not be used:
+         create_function, eval, highlight_file. -->
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array"
+                value="chop=>rtrim,close=>closedir,die=>exit,doubleval=>floatval,fputs=>fwrite,ini_alter=>ini_set,is_double=>is_float,is_integer=>is_int,is_long=>is_int,is_real=>is_float,is_writeable=>is_writable,join=>implode,key_exists=>array_key_exists,pos=>current,sizeof=>count,strchr=>strstr,create_function=>null,eval=>null,show_source=>null,highlight_file=>null"
+            />
+        </properties>
+    </rule>
+
+    <!-- Debug functions `print_r` and `var_dump` MUST NOT be committed into
+         develop. They SHOULD NOT be committed into topic branches either. -->
+    <rule ref="Squiz.PHP.DiscouragedFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array"
+                value="print_r=>null,var_dump=>null"
+            />
+        </properties>
+    </rule>
+
+    <!-- Alternative boolean operators `and` and `or` MUST NOT be used. -->
+    <!-- UNCHECKED. -->
+
+    <!-- Assignments MUST NOT be used as conditional expressions. -->
+    <rule ref="Squiz.PHP.DisallowComparisonAssignment"/>
+
+
+</ruleset>
