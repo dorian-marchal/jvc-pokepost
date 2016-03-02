@@ -1,8 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../src/EncounterGenerator.php';
-
 class TestEncounterGenerator extends PHPUnit_Framework_TestCase {
 
     const NEAR_IMPOSSIBLE_FACTOR = 1;
