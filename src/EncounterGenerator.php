@@ -13,9 +13,9 @@ class EncounterGenerator {
      * @param array $pokemonRepartitionList Liste des différents id de pokémons
      * classés par coefficient de fréquence, de la forme :
      * [
-     *     1 => ['1', '2', '3', '4', '5'], // coefficient 1, les plus rares
-     *     4 => ['104'], // 4 fois plus rare que ceux du dessus
-     *     10 => ['150', '151'], // 10 fois plus rares que ceux du dessus
+     *     1 => ['Mew', 'Mewtwo'], // coefficient 1, les plus rares
+     *     4 => ['Pikachu'], // 4 fois plus fréquents que ceux du dessus
+     *     10 => ['Rattata', 'Roucool', 'Chenipan'], // 10 fois plus fréquents que ceux du dessus
      * ]
      *
      * Les coefficients doivent être des entiers positifs.
