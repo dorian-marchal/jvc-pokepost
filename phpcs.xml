@@ -154,7 +154,7 @@
          would result in less readable code. -->
     <rule ref="Generic.Files.LineLength">
         <properties>
-            <property name="lineLimit" value="80"/>
+            <property name="lineLimit" value="120"/>
             <property name="absoluteLineLimit" value="0"/>
         </properties>
     </rule>
