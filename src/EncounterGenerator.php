@@ -73,7 +73,9 @@ class EncounterGenerator {
      */
     private function padEncounterPossibilitiesToPowerOfTwoElements() {
         $closestPowerOfTwo = self::closestPowerOfTwo(count($this->encounterPossibilities));
-        $this->encounterPossibilities = array_pad($this->encounterPossibilities, $closestPowerOfTwo, null);
+        $this->encounterPossibilities = array_pad(
+            $this->encounterPossibilities, $closestPowerOfTwo, null
+        );
     }
 
     /**
