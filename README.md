@@ -1,4 +1,4 @@
-# JVC Pokémon
+# tmp-pk
 
 ## Dependencies
 
