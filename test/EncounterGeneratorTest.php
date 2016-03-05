@@ -36,11 +36,26 @@ class EncounterGeneratorTest extends PHPUnit_Framework_TestCase {
     public function __construct() {
         $this->generator = new EncounterGenerator();
         $this->generator->setPokemonRepartitionList($this->pokemonRepartition);
-        $this->generator->setExpectedEncounterRate(0.1);
+        $this->generator->setEncounterRate(0);
         $this->generator->update();
     }
 
+    public function testSetEncounterRate() {
+        // Vérifie la limite haute (1).
+        $this->generator->setEncounterRate(2);
+        $this->assertEquals(1, $this->generator->getEncounterRate());
+
+        // Vérifie la limite basse (0).
+        $this->generator->setEncounterRate(-1);
+        $this->assertEquals(0, $this->generator->getEncounterRate());
+
+        // Vérifie la conservation du taux quand il est dans les bornes.
+        $this->generator->setEncounterRate(0.5);
+        $this->assertEquals(0.5, $this->generator->getEncounterRate());
+    }
+
     public function testGetPokemonRatio() {
+
         // Compte le nombre de pokémons pour calculer le ratio manuellement.
         $pokemonCount = 0;
         foreach ($this->pokemonRepartition as $frequencyFactor => $pokemonIds) {

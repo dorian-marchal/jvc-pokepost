@@ -162,7 +162,11 @@ class EncounterGenerator {
         return $this->encounterRate;
     }
 
+    /**
+     * Set le taux de rencontre. Le taux passé est contraint sur [0, 1].
+     * @param int $encounterRate
+     */
     public function setEncounterRate($encounterRate) {
-        $this->encounterRate = $encounterRate;
+        $this->encounterRate = max(min($encounterRate, 1), 0);
     }
 }
