@@ -74,6 +74,31 @@ class EncounterGeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * Vérifie que le taux de rencontre réél ne différe pas trop du taux de
+     * rencontre attendu.
+     */
+    public function testExpectedEncounterRateIsReliable() {
+
+        // Taux de différence autorisé entre 0 et 1;
+        $DELTA = 0.1;
+
+        $this->generator->setPokemonRepartitionList([
+            1 => ['Mew'],
+            2 => ['Carapuce'],
+            8 => ['Rattata'],
+        ]);
+        $this->generator->setExpectedEncounterRate(1 / 3);
+        $this->generator->update();
+
+        $this->assertEquals(
+            $this->generator->getExpectedEncounterRate(),
+            $this->generator->getActualEncounterRate(),
+            '',
+            $DELTA * $this->generator->getExpectedEncounterRate()
+        );
+    }
+
+    /**
      * Vérifie que le taux de recontre des pokémons de chaque groupe par rapport
      * à celui d'un étalon (un pokémon de coefficient de fréquence 1) soit bon.
      */
