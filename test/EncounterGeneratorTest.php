@@ -57,7 +57,7 @@ class EncounterGeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetPokemonEncounterRate() {
-        // Compte le nombre de pokémons pour calculer le taux de recontre manuellement.
+        // Compte le nombre de pokémons pour calculer le taux de rencontre manuellement.
         $pokemonCount = 0;
         foreach ($this->pokemonRepartition as $frequencyFactor => $pokemonIds) {
             $pokemonCount += $frequencyFactor * count($pokemonIds);
@@ -99,7 +99,7 @@ class EncounterGeneratorTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Vérifie que le taux de recontre des pokémons de chaque groupe par rapport
+     * Vérifie que le taux de rencontre des pokémons de chaque groupe par rapport
      * à celui d'un étalon (un pokémon de coefficient de fréquence 1) soit bon.
      */
     public function tesstEncounterProportion() {
