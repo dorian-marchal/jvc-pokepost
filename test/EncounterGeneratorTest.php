@@ -36,7 +36,7 @@ class EncounterGeneratorTest extends PHPUnit_Framework_TestCase {
     public function __construct() {
         $this->generator = new EncounterGenerator();
         $this->generator->setPokemonRepartitionList($this->pokemonRepartition);
-        $this->generator->setEncounterRate(0);
+        $this->generator->setEncounterRate(0.1);
         $this->generator->update();
     }
 
