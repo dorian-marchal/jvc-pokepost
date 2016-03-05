@@ -49,7 +49,12 @@ class EncounterGeneratorTest extends PHPUnit_Framework_TestCase {
 
         // Vérifie le ratio de chaque Pokémon.
         foreach ($this->pokemonRepartition as $frequencyFactor => $pokemonIds) {
-            $expectedRatio = $frequencyFactor / $pokemonCount;
+            // Si le taux de rencontre est nul, le ratio est nul, lui-aussi.
+            if ($this->generator->getEncounterRate() === 0) {
+                $expectedRatio = 0;
+            } else {
+                $expectedRatio = $frequencyFactor / $pokemonCount;
+            }
             foreach ($pokemonIds as $pokemonId) {
                 $this->assertEquals($expectedRatio, $this->generator->getPokemonRatio($pokemonId));
             }
@@ -66,36 +71,11 @@ class EncounterGeneratorTest extends PHPUnit_Framework_TestCase {
         // Vérifie le taux de rencontre de chaque Pokémon.
         foreach ($this->pokemonRepartition as $frequencyFactor => $pokemonIds) {
             $ratio = $frequencyFactor / $pokemonCount;
-            $expectedRate = $ratio * $this->generator->getActualEncounterRate();
+            $expectedRate = $ratio * $this->generator->getEncounterRate();
             foreach ($pokemonIds as $pokemonId) {
                 $this->assertEquals($expectedRate, $this->generator->getPokemonEncounterRate($pokemonId));
             }
         }
-    }
-
-    /**
-     * Vérifie que le taux de rencontre réél ne différe pas trop du taux de
-     * rencontre attendu.
-     */
-    public function testExpectedEncounterRateIsReliable() {
-
-        // Taux de différence autorisé entre 0 et 1;
-        $DELTA = 0.1;
-
-        $this->generator->setPokemonRepartitionList([
-            1 => ['Mew'],
-            2 => ['Carapuce'],
-            8 => ['Rattata'],
-        ]);
-        $this->generator->setExpectedEncounterRate(1 / 3);
-        $this->generator->update();
-
-        $this->assertEquals(
-            $this->generator->getExpectedEncounterRate(),
-            $this->generator->getActualEncounterRate(),
-            '',
-            $DELTA * $this->generator->getExpectedEncounterRate()
-        );
     }
 
     /**

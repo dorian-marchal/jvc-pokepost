@@ -10,10 +10,9 @@ class EncounterGenerator {
     private $encounterPossibilities = [];
     /**
      * @var float Probabilité de rencontrer n'importe quel pokémon à chaque
-     *      post (entre 0 et 1). Ce taux est approximatif. Les calculs peuvent
-     *      faire varier légérement le taux réel.
+     *      post (entre 0 et 1).
      */
-    private $expectedEncounterRate = 1;
+    private $encounterRate = 1;
 
     /**
      * Met à jour les données du générateur en fonction des attributs courants.
@@ -47,7 +46,7 @@ class EncounterGenerator {
     private function generateEncounterPossibilities() {
         $this->encounterPossibilities = [];
 
-        if ($this->expectedEncounterRate === 0) {
+        if ($this->encounterRate === 0) {
             return;
         }
 
@@ -60,9 +59,9 @@ class EncounterGenerator {
         }
 
         // Ajoute des éléments null à la liste de rencontre pour réduire le
-        // taux de rencontre à $expectedEncounterRate.
+        // taux de rencontre à $encounterRate.
         $this->encounterPossibilities = array_pad($this->encounterPossibilities,
-            (int) (count($this->encounterPossibilities) / $this->expectedEncounterRate), null);
+            (int) (count($this->encounterPossibilities) / $this->encounterRate), null);
 
     }
 
@@ -97,7 +96,7 @@ class EncounterGenerator {
      */
     public function getPokemonEncounterRate($pokemonId) {
         $pokemonRatio = $this->getPokemonRatio($pokemonId);
-        return $pokemonRatio * $this->getActualEncounterRate();
+        return $pokemonRatio * $this->encounterRate;
     }
 
     /**
@@ -159,26 +158,11 @@ class EncounterGenerator {
         $this->pokemonRepartitionList = $pokemonRepartitionList;
     }
 
-    public function getExpectedEncounterRate() {
-        return $this->expectedEncounterRate;
+    public function getEncounterRate() {
+        return $this->encounterRate;
     }
 
-    public function setExpectedEncounterRate($expectedEncounterRate) {
-        $this->expectedEncounterRate = $expectedEncounterRate;
-    }
-
-    /**
-     * Retourne le taux de rencontre réél, basé sur les données utilisées pour
-     * les calculs. Ce taux peut être légérement différent d'$expectedEncounterRate.
-     * @return float
-     */
-    public function getActualEncounterRate() {
-        $encounterPossibilityCount = count($this->encounterPossibilities);
-
-        if ($encounterPossibilityCount > 0) {
-            return $this->getPokemonCount() / count($this->encounterPossibilities);
-        }
-
-        return 0;
+    public function setEncounterRate($encounterRate) {
+        $this->encounterRate = $encounterRate;
     }
 }
