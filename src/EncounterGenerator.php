@@ -6,6 +6,8 @@
  */
 class EncounterGenerator {
 
+    const MIN_GAP_BETWEEN_POST_IDS = 8;
+
     private $pokemonRepartitionList = [];
     private $encounterPossibilities = [];
     /**
@@ -110,10 +112,10 @@ class EncounterGenerator {
      *         rencontre pour cet ID.
      */
     public function getEncounterForPost($postId) {
-        // On divise l'ID du post par 8 pour résoudre les problèmes liés au fait
-        // que l'écart minimum entre deux ID de message d'un même topic est de 8
-        // sur les forums de jeuxvideo.com.
-        $dividedId = floor($postId / 8);
+        // On divise l'ID du post par MIN_GAP_BETWEEN_POST_IDS pour résoudre les
+        // problèmes liés au fait que l'écart minimum entre deux ID de message
+        // d'un même topic n'est pas de 1 sur les forums de jeuxvideo.com.
+        $dividedId = floor($postId / self::MIN_GAP_BETWEEN_POST_IDS);
         $encounterIndex = $dividedId % count($this->encounterPossibilities);
 
         return $this->encounterPossibilities[$encounterIndex];
