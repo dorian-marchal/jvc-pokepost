@@ -6,6 +6,10 @@
  */
 class EncounterGenerator {
 
+    /**
+     * Écart minimum entre deux ID de post sur un même topic de jeuxvideo.com.
+     * @var int
+     */
     const MIN_GAP_BETWEEN_POST_IDS = 8;
 
     private $pokemonRepartitionList = [];
