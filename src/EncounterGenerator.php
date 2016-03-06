@@ -21,12 +21,22 @@ class EncounterGenerator {
     }
 
     /**
-     * Met à jour les données du générateur en fonction des attributs courants.
-     * Cette méthode doit être appelée après la modification d'un attribut
-     * pour que celui-ci soit pris en compte.
+     * Modifie la liste de répartition des pokémons.
+     *
+     * @param array $pokemonRepartitionList Liste des différents id de pokémons
+     * classés par coefficient de fréquence, de la forme :
+     * [
+     *     1 => ['Mew', 'Mewtwo'], // coefficient 1, les plus rares
+     *     4 => ['Pikachu'], // 4 fois plus fréquents que ceux du dessus
+     *     10 => ['Rattata', 'Roucool'], // 10 fois plus fréquents que ceux du dessus
+     * ]
+     * Les coefficients doivent être des entiers positifs.
+     *
+     * @throws \Exception si la liste passée est mal formée.
      */
-    public function update() {
-        $this->generateEncounterPossibilities();
+    public function setPokemonRepartitionList($pokemonRepartitionList) {
+        $this->checkRepartitionList($pokemonRepartitionList);
+        $this->pokemonRepartitionList = $pokemonRepartitionList;
     }
 
     /**
@@ -43,6 +53,27 @@ class EncounterGenerator {
                 throw new \Exception('Frequency factors must be positive integers.');
             }
         }
+    }
+
+    /**
+     * Set le taux de rencontre. Le taux passé est contraint sur [0, 1].
+     * @param int $encounterRate
+     */
+    public function setEncounterRate($encounterRate) {
+        $this->encounterRate = max(min($encounterRate, 1), 0);
+    }
+
+    public function getEncounterRate() {
+        return $this->encounterRate;
+    }
+
+    /**
+     * Met à jour les données du générateur en fonction des attributs courants.
+     * Cette méthode doit être appelée après la modification d'un attribut
+     * pour que celui-ci soit pris en compte.
+     */
+    public function update() {
+        $this->generateEncounterPossibilities();
     }
 
     /**
@@ -138,36 +169,5 @@ class EncounterGenerator {
         };
 
         return array_reduce($this->encounterPossibilities, $incrementNumberOfOccurences, 0);
-    }
-
-    /**
-     * Modifie la liste de répartition des pokémons.
-     *
-     * @param array $pokemonRepartitionList Liste des différents id de pokémons
-     * classés par coefficient de fréquence, de la forme :
-     * [
-     *     1 => ['Mew', 'Mewtwo'], // coefficient 1, les plus rares
-     *     4 => ['Pikachu'], // 4 fois plus fréquents que ceux du dessus
-     *     10 => ['Rattata', 'Roucool'], // 10 fois plus fréquents que ceux du dessus
-     * ]
-     * Les coefficients doivent être des entiers positifs.
-     *
-     * @throws \Exception si la liste passée est mal formée.
-     */
-    public function setPokemonRepartitionList($pokemonRepartitionList) {
-        $this->checkRepartitionList($pokemonRepartitionList);
-        $this->pokemonRepartitionList = $pokemonRepartitionList;
-    }
-
-    public function getEncounterRate() {
-        return $this->encounterRate;
-    }
-
-    /**
-     * Set le taux de rencontre. Le taux passé est contraint sur [0, 1].
-     * @param int $encounterRate
-     */
-    public function setEncounterRate($encounterRate) {
-        $this->encounterRate = max(min($encounterRate, 1), 0);
     }
 }
