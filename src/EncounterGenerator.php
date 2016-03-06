@@ -21,7 +21,6 @@ class EncounterGenerator {
      */
     public function update() {
         $this->generateEncounterPossibilities();
-        $this->pokemonShuffle();
     }
 
     /**
@@ -63,12 +62,8 @@ class EncounterGenerator {
         $this->encounterPossibilities = array_pad($this->encounterPossibilities,
             (int) (count($this->encounterPossibilities) / $this->encounterRate), null);
 
-    }
-
-    /**
-     * Mélange le tableau de rencontres potentielles.
-     */
-    private function pokemonShuffle() {
+        // Mélange le tableau de rencontres pour éviter les cycles de rencontre
+        // trop visibles.
         shuffle($this->encounterPossibilities);
     }
 
