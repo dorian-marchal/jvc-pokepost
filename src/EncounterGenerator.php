@@ -176,13 +176,13 @@ class EncounterGenerator {
      * potentielles.
      */
     private function getNumberOfOccurences($pokemonId) {
-        $incrementNumberOfOccurences = function ($occurences, $possibility) use ($pokemonId) {
-            if ($possibility === $pokemonId) {
+        $countOccurences = function ($occurences, $currentId) use ($pokemonId) {
+            if ($currentId === $pokemonId) {
                 $occurences++;
             }
             return $occurences;
         };
 
-        return array_reduce($this->encounterPossibilities, $incrementNumberOfOccurences, 0);
+        return array_reduce($this->encounterPossibilities, $countOccurences, 0);
     }
 }
