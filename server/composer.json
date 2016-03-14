@@ -1,5 +1,5 @@
 {
-    "name": "dorian-marchal/jvc-pokemon",
+    "name": "dorian-marchal/tmp-pk",
     "require-dev": {
         "raveren/kint": "^1.0"
     },

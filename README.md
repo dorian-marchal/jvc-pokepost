@@ -1,20 +1,17 @@
 # tmp-pk
 
-## Dependencies
+## Server Installation
 
-#### Dev
+#### Dev dependencies
 - Composer
 - PhpUnit
 - PHP Code Sniffer
 
-## Installation
+#### Installation
+Clone the repo, and execute `make install` in the `server` directory.
 
-Clone the repo and execute `make install`.
+#### Tests
+Run `make test` in the `server` directory.
 
-## Tests
-
-Run `make test`.
-
-## Linting
-
-Run `make lint`.
+#### Linting
+Run `make lint` in the `server` directory.
