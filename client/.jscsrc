@@ -1,0 +1,10 @@
+{
+    "preset": "google",
+    "fileExtensions": [".js", "jscs"],
+
+    "requireSemicolons": true,
+    "requireParenthesesAroundIIFE": true,
+    "validateLineBreaks": "LF",
+    "validateIndentation": 4,
+    "maximumLineLength": 120
+}
