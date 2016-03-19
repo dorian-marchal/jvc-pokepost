@@ -37,6 +37,18 @@ class EncounterGeneratorTest extends PHPUnit_Framework_TestCase {
         $this->generator = new EncounterGenerator($this->pokemonRepartition, 0.1);
     }
 
+    public function testSetPokemonRepartitionListNotArray() {
+        $this->setExpectedException('InvalidArgumentException');
+        $this->generator->setPokemonRepartitionList('test');
+    }
+
+    public function testSetPokemonRepartitionListBadFactors() {
+        $this->setExpectedException('InvalidArgumentException');
+        $this->generator->setPokemonRepartitionList([
+            0.5 => ['test'],
+        ]);
+    }
+
     public function testSetEncounterRate() {
         // Vérifie la limite haute (1).
         $this->generator->setEncounterRate(2);

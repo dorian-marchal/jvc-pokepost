@@ -52,12 +52,12 @@ class EncounterGenerator {
      */
     private function checkRepartitionList($pokemonRepartitionList) {
         if (!is_array($pokemonRepartitionList)) {
-            throw new \Exception('Repartition list must be an array.');
+            throw new \InvalidArgumentException('Repartition list must be an array.');
         }
 
         foreach (array_keys($pokemonRepartitionList) as $frequencyFactor) {
             if (!is_int($frequencyFactor)) {
-                throw new \Exception('Frequency factors must be positive integers.');
+                throw new \InvalidArgumentException('Frequency factors must be positive integers.');
             }
         }
     }
