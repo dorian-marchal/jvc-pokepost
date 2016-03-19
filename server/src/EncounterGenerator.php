@@ -56,7 +56,7 @@ class EncounterGenerator {
         }
 
         foreach (array_keys($pokemonRepartitionList) as $frequencyFactor) {
-            if (!is_int($frequencyFactor)) {
+            if (!is_int($frequencyFactor) || $frequencyFactor < 1) {
                 throw new \InvalidArgumentException('Frequency factors must be positive integers.');
             }
         }
