@@ -8,4 +8,4 @@ lint :
 
 .PHONY: test
 test :
-	phpunit --colors
+	vendor/phpunit/phpunit/phpunit --colors
