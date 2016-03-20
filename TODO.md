@@ -8,7 +8,7 @@
 - [ ] Capture
     - animation simple :
       click -> affichage d'une pokéball sur l'image
-            ↘ fadeout du pokémon en cas d'échec
+            -> fadeout du pokémon en cas d'échec
     - Enregistrer la capture dans le pokédex
     - Une seule capture possible par espèce
 - [ ] Pokédex
@@ -18,6 +18,7 @@
 - [ ] Trouver un nom au script
 
 # v0.2
+- [ ] ES6
 - [ ] Authentification
 - [ ] Pokédex voir le pokédex d'un utilisateur dans son profil (icône pokédex)
 
@@ -28,7 +29,7 @@
 - [ ] Echanges entre utilisateurs
 
 # v1
-- [ ] Statistiques
+- [ ] Statistiques d'utilisation du script
 - [ ] Monitoring du serveur
 - [ ] Animations peaufinées
     - [ ] Rencontre
@@ -47,6 +48,13 @@
 
 ### Tech
 - Plusieurs modules -> Gulp + Webpack
+- Passer à ES6
+- Améliorer les tests (état global mocha)
+- Test que les pokémons d'un même group aient le même taux de rencontre
+- Test que wantedEncounterRate et encounterRate ne soient pas trop éloignés
+- definition approximation
+- Ajouter un gulpfile (install / test / lint)
+- Hook pour lancer les test
 
 ### Authentification
 - Pokéball en bas à droite (noir et blanc quand pas connecté)
@@ -94,6 +102,7 @@
 - On tente une capture (Voir section du dessous)
 - Pouvoir exporter un tableau de rencontres potentielles pour l'enregistrer en JSON puis l'importer
     - Le mettre dans un Objet JSON serializable
+- Attention à limiter le nombre de requêtes parallèles à jeuxvideo.com
 
 ### Capture
 - Objet "pokémon" contenant le taux de rencontre et de capture ?
