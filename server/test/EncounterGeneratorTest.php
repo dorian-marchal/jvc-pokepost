@@ -59,8 +59,14 @@ class EncounterGeneratorTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $this->generator->getWantedEncounterRate());
 
         // Vérifie la conservation du taux quand il est dans les bornes.
+        $this->generator->setWantedEncounterRate(0);
+        $this->assertEquals(0, $this->generator->getWantedEncounterRate());
+
         $this->generator->setWantedEncounterRate(0.5);
         $this->assertEquals(0.5, $this->generator->getWantedEncounterRate());
+
+        $this->generator->setWantedEncounterRate(1);
+        $this->assertEquals(1, $this->generator->getWantedEncounterRate());
     }
 
     public function testGetPokemonRatio() {

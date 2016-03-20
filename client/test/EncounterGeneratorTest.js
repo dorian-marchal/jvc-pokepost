@@ -99,7 +99,15 @@ describe('EncounterGenerator', function() {
         });
 
         it('should keep a value between 0 and 1', function() {
+            var goodRate = 0;
+            generator.setWantedEncounterRate(goodRate);
+            generator.getWantedEncounterRate().should.be.eql(goodRate);
+
             goodRate = 0.5;
+            generator.setWantedEncounterRate(goodRate);
+            generator.getWantedEncounterRate().should.be.eql(goodRate);
+
+            goodRate = 1;
             generator.setWantedEncounterRate(goodRate);
             generator.getWantedEncounterRate().should.be.eql(goodRate);
         });
