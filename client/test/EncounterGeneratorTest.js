@@ -8,6 +8,7 @@ var pokemonRepartition = {};
 
 /**
  * Simule un grand nombre de rencontres et retourne le résultat.
+ * @returns {object} Rencontres générées
  */
 var simulateEncounters = function() {
     var NUMBER_OF_POST_TO_TEST = generator.getCycleLength() * 2;

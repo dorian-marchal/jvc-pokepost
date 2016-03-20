@@ -21,6 +21,11 @@ class EncounterGenerator {
      */
     private $wantedEncounterRate = 1;
 
+    /**
+     * @param array pokemonRepartitionList Liste de répartition des pokémons.
+     *        Voir #setPokemonRepartitionList() pour plus d'informations.
+     * @param float wantedEncounterRate Taux de rencontre global souhaité.
+     */
     public function __construct($pokemonRepartitionList, $wantedEncounterRate) {
         $this->setPokemonRepartitionList($pokemonRepartitionList);
         $this->setWantedEncounterRate($wantedEncounterRate);
@@ -63,9 +68,11 @@ class EncounterGenerator {
     }
 
     /**
-     * Set le taux de rencontre. Le taux passé est contraint sur [0, 1].
+     * Set le taux de rencontre global. Le taux passé est contraint sur [0, 1], il
+     * représente la probabilité de rencontrer un pokémon (quel qu'il soit) à chaque
+     * post.
      * Ce taux est approximatif. Pour obtenir le taux de rencontre effectif, il
-     * faut appeler la méthode `getActualEncounterRate`.
+     * faut appeler la méthode #getActualEncounterRate().
      * @param int $wantedEncounterRate
      */
     public function setWantedEncounterRate($wantedEncounterRate) {
@@ -125,6 +132,7 @@ class EncounterGenerator {
 
     /**
      * Retourne le pokémon rencontré pour un ID de post particulier.
+     * @param int postId ID du post
      * @return string ID du pokémon rencontré ou null s'il n'y a pas de
      *         rencontre pour cet ID.
      */
