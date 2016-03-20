@@ -1,4 +1,4 @@
-var should = require('should');
+require('should');
 var _ = require('lodash');
 
 var EncounterGenerator = require('../src/EncounterGenerator');
@@ -11,25 +11,24 @@ var pokemonRepartition = {};
  * @returns {object} Rencontres générées
  */
 var simulateEncounters = function() {
-    var NUMBER_OF_POST_TO_TEST = generator.getCycleLength() * 2;
+    var NUMBER_OF_CYCLES = 2;
+    var NUMBER_OF_POST_TO_TEST = generator.getCycleLength() * NUMBER_OF_CYCLES;
 
     // Tente $NUMBER_OF_POST_TO_TEST rencontres et stocke les résultats.
     var encounters = {};
 
-    for (var postId = 0; postId < NUMBER_OF_POST_TO_TEST; postId++) {
+    _.times(NUMBER_OF_POST_TO_TEST, function(postId) {
         var pokemonId = generator.getEncounterForPost(postId);
 
-        if (pokemonId === null) {
-            continue;
+        if (pokemonId !== null) {
+            if (typeof encounters[pokemonId] === 'undefined') {
+                encounters[pokemonId] = {
+                    count: 0,
+                };
+            }
+            encounters[pokemonId].count++;
         }
-
-        if (encounters[pokemonId] === undefined) {
-            encounters[pokemonId] = {
-                count: 0,
-            };
-        }
-        encounters[pokemonId].count++;
-    }
+    });
 
     // Calcule le taux de rencontre de chaque pokémon rencontré.
     _(encounters).forEach(function(currentEncounter, pokemonId) {
@@ -41,6 +40,7 @@ var simulateEncounters = function() {
 describe('EncounterGenerator', function() {
 
     beforeEach(function() {
+        var ENCOUNTER_RATE = 0.15;
         var NEAR_IMPOSSIBLE_FACTOR = 1;
         var LEGENDARY_FACTOR = 2;
         var RARE_FACTOR = 4;
@@ -69,7 +69,7 @@ describe('EncounterGenerator', function() {
             'Mew',
         ];
 
-        generator = new EncounterGenerator(pokemonRepartition, 0.15);
+        generator = new EncounterGenerator(pokemonRepartition, ENCOUNTER_RATE);
     });
 
     describe('#setPokemonRepartitionList()', function() {
@@ -80,25 +80,28 @@ describe('EncounterGenerator', function() {
         });
         it('should fail when factors are not positive integers', function() {
             (function() {
-                generator.setPokemonRepartitionList({0.5: ['test']});
+                generator.setPokemonRepartitionList({ 0.5: ['test'] });
             }).should.throw('Frequency factors must be positive integers.');
         });
     });
 
     describe('#setWantedEncounterRate()', function() {
         it('should have an upper limit of 1', function() {
-            generator.setWantedEncounterRate(2);
+            var tooHighRate = 2;
+            generator.setWantedEncounterRate(tooHighRate);
             generator.getWantedEncounterRate().should.be.eql(1);
         });
 
         it('should have a lower limit of 0', function() {
-            generator.setWantedEncounterRate(-1);
+            var tooLowRate = -1;
+            generator.setWantedEncounterRate(tooLowRate);
             generator.getWantedEncounterRate().should.be.eql(0);
         });
 
         it('should keep a value between 0 and 1', function() {
-            generator.setWantedEncounterRate(0.5);
-            generator.getWantedEncounterRate().should.be.eql(0.5);
+            goodRate = 0.5;
+            generator.setWantedEncounterRate(goodRate);
+            generator.getWantedEncounterRate().should.be.eql(goodRate);
         });
     });
 
@@ -112,11 +115,14 @@ describe('EncounterGenerator', function() {
 
             // Vérifie le ratio de chaque Pokémon.
             _(pokemonRepartition).forEach(function(pokemonIds, frequencyFactor) {
+                var expectedRatio;
+
                 // Si le taux de rencontre est nul, le ratio est nul, lui-aussi.
                 if (generator.getWantedEncounterRate() === 0) {
-                    var expectedRatio = 0;
-                } else {
-                    var expectedRatio = frequencyFactor / pokemonCount;
+                    expectedRatio = 0;
+                }
+                else {
+                    expectedRatio = frequencyFactor / pokemonCount;
                 }
                 pokemonIds.forEach(function(pokemonId) {
                     generator.getPokemonRatio(pokemonId).should.be.eql(expectedRatio);
@@ -151,7 +157,7 @@ describe('EncounterGenerator', function() {
         it('should be right for each pokemon group', function() {
             var DELTA = 0.0000001;
             var encounters = simulateEncounters();
-            _(pokemonRepartition).forEach(function(pokemonIds, frequencyFactor) {
+            _(pokemonRepartition).forEach(function(pokemonIds) {
                 pokemonIds.forEach(function(pokemonId) {
                     var expectedRate = generator.getPokemonEncounterRate(pokemonId);
                     encounters[pokemonId].encounterRate.should.be.approximately(expectedRate, DELTA);

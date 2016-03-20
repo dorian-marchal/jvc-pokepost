@@ -1,5 +1,3 @@
-'use strict';
-
 var shuffle = require('array-shuffle');
 
 /**
@@ -61,8 +59,10 @@ EncounterGenerator.prototype._checkRepartitionList = function(pokemonRepartition
     }
     for (var frequencyFactor in pokemonRepartitionList) {
         // Les coefficients de fréquences sont des chaînes, on les converti en entier.
+        var numberFactor = Number(frequencyFactor);
+
         // x % 1 !== 0 est vrai si x n'est pas un entier.
-        if (typeof +frequencyFactor !== 'number' || +frequencyFactor % 1 !== 0 || +frequencyFactor < 1) {
+        if (typeof numberFactor !== 'number' || numberFactor % 1 !== 0 || numberFactor < 1) {
             throw new Error('Frequency factors must be positive integers.');
         }
     }
@@ -114,14 +114,18 @@ EncounterGenerator.prototype._generateEncounterPossibilities = function() {
         return;
     }
 
+    var that = this;
+    var addEncounterPossibilities = function(amountToAdd, pokemonIdsToAdd) {
+        pokemonIdsToAdd.forEach(function(pokemonId) {
+            for (var i = 0; i < amountToAdd; i++) {
+                that._encounterPossibilities.push(pokemonId);
+            }
+        });
+    };
+
     for (var frequencyFactor in this._pokemonRepartitionList) {
         var pokemonIds = this._pokemonRepartitionList[frequencyFactor];
-
-        pokemonIds.forEach(function(pokemonId) {
-            for (var i = 0; i < +frequencyFactor; i++) {
-                this._encounterPossibilities.push(pokemonId);
-            }
-        }.bind(this));
+        addEncounterPossibilities(Number(frequencyFactor), pokemonIds);
     }
 
     // Ajoute des éléments null à la liste de rencontre pour réduire le
@@ -206,7 +210,7 @@ EncounterGenerator.prototype._getPokemonCount = function() {
 EncounterGenerator.prototype._getNumberOfOccurences = function(pokemonId) {
     var countOccurences = function(occurences, currentId) {
         if (currentId === pokemonId) {
-            occurences++;
+            return occurences + 1;
         }
         return occurences;
     };
