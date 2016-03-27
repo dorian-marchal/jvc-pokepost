@@ -159,7 +159,6 @@
       "DoWhileStatement",
       "DebuggerStatement",
       "LabeledStatement",
-      "WhileStatement",
       "WithStatement",
       "ExportAllDeclaration",
       "ImportNamespaceSpecifier"
