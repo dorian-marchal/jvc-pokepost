@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Permet de générer des rencontres de pokémons à partir d'ID de posts sur les
+ * Permet de générer des rencontres de Pokémon à partir d'ID de posts sur les
  * forums de jeuxvideo.com.
  */
 class EncounterGenerator {
@@ -16,13 +16,13 @@ class EncounterGenerator {
     private $encounterPossibilities = [];
 
     /**
-     * @var float Probabilité de rencontrer n'importe quel pokémon à chaque
+     * @var float Probabilité de rencontrer n'importe quel Pokémon à chaque
      *      post (entre 0 et 1).
      */
     private $wantedEncounterRate = 1;
 
     /**
-     * @param array pokemonRepartitionList Liste de répartition des pokémons.
+     * @param array pokemonRepartitionList Liste de répartition des Pokémon.
      *        Voir #setPokemonRepartitionList() pour plus d'informations.
      * @param float wantedEncounterRate Taux de rencontre global souhaité.
      */
@@ -33,9 +33,9 @@ class EncounterGenerator {
     }
 
     /**
-     * Modifie la liste de répartition des pokémons.
+     * Modifie la liste de répartition des Pokémon.
      *
-     * @param array $pokemonRepartitionList Liste des différents id de pokémons
+     * @param array $pokemonRepartitionList Liste des différents id de Pokémon
      * classés par coefficient de fréquence, de la forme :
      * [
      *     1 => ['Mew', 'Mewtwo'], // coefficient 1, les plus rares
@@ -69,7 +69,7 @@ class EncounterGenerator {
 
     /**
      * Set le taux de rencontre global. Le taux passé est contraint sur [0, 1], il
-     * représente la probabilité de rencontrer un pokémon (quel qu'il soit) à chaque
+     * représente la probabilité de rencontrer un Pokémon (quel qu'il soit) à chaque
      * post.
      * Ce taux est approximatif. Pour obtenir le taux de rencontre effectif, il
      * faut appeler la méthode #getActualEncounterRate().
@@ -131,9 +131,9 @@ class EncounterGenerator {
     }
 
     /**
-     * Retourne le pokémon rencontré pour un ID de post particulier.
+     * Retourne le Pokémon rencontré pour un ID de post particulier.
      * @param int postId ID du post
-     * @return string ID du pokémon rencontré ou null s'il n'y a pas de
+     * @return string ID du Pokémon rencontré ou null s'il n'y a pas de
      *         rencontre pour cet ID.
      */
     public function getEncounterForPost($postId) {
@@ -147,7 +147,7 @@ class EncounterGenerator {
     }
 
     /**
-     * Retourne le taux de rencontre du pokémon d'id passé en paramètre.
+     * Retourne le taux de rencontre du Pokémon d'id passé en paramètre.
      *
      * @param string $pokemonId
      * @return float Probabilité de rencontrer le Pokémon d'ID passé en paramètre
@@ -160,7 +160,7 @@ class EncounterGenerator {
 
     /**
      * Retourne le nombre de posts consécutifs minimum pour que tous les
-     * pokémons soient rencontrés au moins une fois.
+     * Pokémon soient rencontrés au moins une fois.
      * @return int
      */
     public function getCycleLength() {
@@ -169,7 +169,7 @@ class EncounterGenerator {
 
     /**
      * Retourne la proportion du Pokémon d'ID passé en paramètre par rapport
-     * à la masse totale de tous les Pokémons.
+     * à la masse totale de tous les Pokémon.
      * @param string $pokemonId
      * @return float
      */
@@ -184,7 +184,7 @@ class EncounterGenerator {
     }
 
     /**
-     * @return int Retourne le nombre total de pokémons dans la liste des
+     * @return int Retourne le nombre total de Pokémon dans la liste des
      * possibilités de rencontre.
      */
     private function getPokemonCount() {

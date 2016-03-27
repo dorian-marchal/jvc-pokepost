@@ -30,7 +30,7 @@ var simulateEncounters = function() {
         }
     });
 
-    // Calcule le taux de rencontre de chaque pokémon rencontré.
+    // Calcule le taux de rencontre de chaque Pokémon rencontré.
     _(encounters).forEach(function(currentEncounter, pokemonId) {
         encounters[pokemonId].encounterRate = currentEncounter.count / NUMBER_OF_POST_TO_TEST;
     });
@@ -114,9 +114,9 @@ describe('EncounterGenerator', function() {
     });
 
     describe('#getPokemonRatio()', function() {
-        it('should get the correct ratio for each pokemon', function() {
+        it('should get the correct ratio for each Pokémon', function() {
 
-            // Compte le nombre de pokémons pour calculer le ratio manuellement.
+            // Compte le nombre de Pokémon pour calculer le ratio manuellement.
             var pokemonCount = 0;
             _(pokemonRepartition).forEach(function(pokemonIds, frequencyFactor) {
                 pokemonCount += frequencyFactor * pokemonIds.length;
@@ -141,9 +141,9 @@ describe('EncounterGenerator', function() {
     });
 
     describe('#getPokemonEncounterRate()', function() {
-        it('should get the right encounter rate for each pokemon', function() {
+        it('should get the right encounter rate for each Pokémon', function() {
 
-            // Compte le nombre de pokémons pour calculer le taux de rencontre manuellement.
+            // Compte le nombre de Pokémon pour calculer le taux de rencontre manuellement.
             var pokemonCount = 0;
             _(pokemonRepartition).forEach(function(pokemonIds, frequencyFactor) {
                 pokemonCount += frequencyFactor * pokemonIds.length;
@@ -161,10 +161,10 @@ describe('EncounterGenerator', function() {
     });
 
     /**
-     * Vérifie que le taux de rencontre des pokémons de chaque groupe soit bon.
+     * Vérifie que le taux de rencontre des Pokémon de chaque groupe soit bon.
      */
     describe('encounter proportions', function() {
-        it('should be right for each pokemon group', function() {
+        it('should be right for each Pokémon', function() {
             var DELTA = 0.0000001;
             var encounters = simulateEncounters();
             _(pokemonRepartition).forEach(function(pokemonIds) {

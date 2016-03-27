@@ -1,10 +1,10 @@
 var shuffle = require('array-shuffle');
 
 /**
- * Permet de générer des rencontres de pokémons à partir d'ID de posts sur les
+ * Permet de générer des rencontres de Pokémon à partir d'ID de posts sur les
  * forums de jeuxvideo.com.
  *
- * @param {object} pokemonRepartitionList Liste de répartition des pokémons.
+ * @param {object} pokemonRepartitionList Liste de répartition des Pokémon.
  *        Voir #setPokemonRepartitionList() pour plus d'informations.
  * @param {float} wantedEncounterRate Taux de rencontre global souhaité.
  * @constructor
@@ -25,15 +25,15 @@ EncounterGenerator.prototype._pokemonRepartitionList = [];
 EncounterGenerator.prototype._encounterPossibilities = [];
 
 /**
- * @type {float} Probabilité de rencontrer n'importe quel pokémon à chaque
+ * @type {float} Probabilité de rencontrer n'importe quel Pokémon à chaque
  *      post (entre 0 et 1).
  */
 EncounterGenerator.prototype._wantedEncounterRate = 1;
 
 /**
- * Modifie la liste de répartition des pokémons.
+ * Modifie la liste de répartition des Pokémon.
  *
- * @param {object} pokemonRepartitionList Liste des différents id de pokémons
+ * @param {object} pokemonRepartitionList Liste des différents id de Pokémon
  * classés par coefficient de fréquence, de la forme :
  * {
  *     1: ['Mew', 'Mewtwo'], // coefficient 1, les plus rares
@@ -50,7 +50,7 @@ EncounterGenerator.prototype.setPokemonRepartitionList = function(pokemonReparti
 };
 
 /**
- * Vérifie que la répartition des pokémons est bien formée.
+ * Vérifie que la répartition des Pokémon est bien formée.
  *
  * @param {object} pokemonRepartitionList Répartition à vérifier
  * @throws {Error}
@@ -73,7 +73,7 @@ EncounterGenerator.prototype._checkRepartitionList = function(pokemonRepartition
 
 /**
  * Set le taux de rencontre global. Le taux passé est contraint sur [0, 1], il
- * représente la probabilité de rencontrer un pokémon (quel qu'il soit) à chaque
+ * représente la probabilité de rencontrer un Pokémon (quel qu'il soit) à chaque
  * post.
  * Ce taux est approximatif. Pour obtenir le taux de rencontre effectif, il
  * faut appeler la méthode #getActualEncounterRate().
@@ -146,10 +146,10 @@ EncounterGenerator.prototype._generateEncounterPossibilities = function() {
 };
 
 /**
- * Retourne le pokémon rencontré pour un ID de post particulier.
+ * Retourne le Pokémon rencontré pour un ID de post particulier.
  *
  * @param {int} postId ID du post
- * @return {string} ID du pokémon rencontré ou null s'il n'y a pas de
+ * @return {string} ID du Pokémon rencontré ou null s'il n'y a pas de
  *         rencontre pour cet ID.
  */
 EncounterGenerator.prototype.getEncounterForPost = function(postId) {
@@ -163,9 +163,9 @@ EncounterGenerator.prototype.getEncounterForPost = function(postId) {
 };
 
 /**
- * Retourne le taux de rencontre du pokémon d'id passé en paramètre.
+ * Retourne le taux de rencontre du Pokémon d'id passé en paramètre.
  *
- * @param {string} pokemonId ID du pokémon
+ * @param {string} pokemonId ID du Pokémon
  * @return {float} Probabilité de rencontrer le Pokémon d'ID passé en paramètre
  *         À chaque post, entre 0 et 1.
  */
@@ -176,16 +176,16 @@ EncounterGenerator.prototype.getPokemonEncounterRate = function(pokemonId) {
 
 /**
  * @return {int} Nombre de posts consécutifs minimum pour que tous les
- * pokémons soient rencontrés au moins une fois.
+ * Pokémon soient rencontrés au moins une fois.
  */
 EncounterGenerator.prototype.getCycleLength = function() {
     return this._encounterPossibilities.length * this.constructor.MIN_GAP_BETWEEN_POST_IDS;
 };
 
 /**
- * @param {string} pokemonId ID du pokémon
+ * @param {string} pokemonId ID du Pokémon
  * @return {number} proportion du Pokémon d'ID passé en paramètre par rapport
- *         à la masse totale de tous les Pokémons.
+ *         à la masse totale de tous les Pokémon.
  */
 EncounterGenerator.prototype.getPokemonRatio = function(pokemonId) {
     var pokemonCount = this._getPokemonCount();
@@ -198,7 +198,7 @@ EncounterGenerator.prototype.getPokemonRatio = function(pokemonId) {
 };
 
 /**
- * @return {int} Retourne le nombre total de pokémons dans la liste des
+ * @return {int} Retourne le nombre total de Pokémon dans la liste des
  *         possibilités de rencontre.
  */
 EncounterGenerator.prototype._getPokemonCount = function() {
@@ -207,7 +207,7 @@ EncounterGenerator.prototype._getPokemonCount = function() {
 };
 
 /**
- * @param {string} pokemonId ID du pokémon
+ * @param {string} pokemonId ID du Pokémon
  * @return {int} Nombre d'occurences d'un Pokémon dans la liste des rencontres
  *         potentielles.
  */

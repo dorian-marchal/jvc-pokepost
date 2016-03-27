@@ -8,11 +8,11 @@
 - [ ] Capture
     - animation simple :
       click -> affichage d'une pokéball sur l'image
-            -> fadeout du pokémon en cas d'échec
+            -> fadeout du Pokémon en cas d'échec
     - Enregistrer la capture dans le pokédex
     - Une seule capture possible par espèce
 - [ ] Pokédex
-    - Simple liste des pokémons capturés / restants
+    - Simple liste des Pokémon capturés / restants
     - lien en haut à droite des forums
 - [ ] Warning beta dans le topic
 - [ ] Trouver un nom au script
@@ -74,9 +74,9 @@
 
 ### Pokédex
 - Onglet dans le profil accessible depuis en haut à droite
-- Compteur de pokémons directement sur le pokédex
-- Liste des pokémons capturés et manquants
-- Compteur pour chaques pokémons
+- Compteur de Pokémon directement sur le pokédex
+- Liste des Pokémon capturés et manquants
+- Compteur pour chaques Pokémon
 - Voir le pokédex des autres utilisateurs
     - Compteur sur chaque utilisateur
     - cache client ?
@@ -84,12 +84,12 @@
 
 ### Echanges
 - Par MP -> Demande d'échange -> acceptation
-- Possibilité d'obtenir plusieurs fois le même pokémon
+- Possibilité d'obtenir plusieurs fois le même Pokémon
 - Interface d'échange dans un topic en particulier ?
 - Possibilité de bloquer les échanges pour éviter les abus ?
 
 ### Rencontre
-- Définir un taux de rencontre pour chaque pokémon
+- Définir un taux de rencontre pour chaque Pokémon
 - À chaque nouveau post, l'id du post détermine si une rencontre a lieu (1)
 - Si une rencontre a lieu, le permalien du post est envoyé au serveur du script
 - Le serveur vérifie :
@@ -105,7 +105,7 @@
 - Attention à limiter le nombre de requêtes parallèles à jeuxvideo.com
 
 ### Capture
-- Objet "pokémon" contenant le taux de rencontre et de capture ?
+- Objet "Pokémon" contenant le taux de rencontre et de capture ?
 - Vérifier la rencontre côté serveur
     - Choisir une URL légère à récupérer.
 - Taux de capture pour les différents Pokémon
@@ -114,7 +114,7 @@
       frequencyFactor:4 -> 0.64
       frequencyFactor:8 -> 0.88
       frequencyFactor:12 -> 1
-- Coût des pokéballs pour éviter des Pokémons faciles à capturer
+- Coût des pokéballs pour éviter des Pokémon faciles à capturer
 - Random côté serveur
 
 __Problématique__
@@ -129,7 +129,7 @@ __Idées__
 
 ### Evolution
 - Choisir une équipe qui gagnera de l'XP
-- Possibilité de combattre le pokémon plutôt que de le capturer pour monter en niveau ?
+- Possibilité de combattre le Pokémon plutôt que de le capturer pour monter en niveau ?
     - 1 post = 1 niveau
 - Objets récupérables au clic que certaines pages (du types pierres d'évolution)
 - Evolution lors d'échange ?
@@ -146,10 +146,10 @@ __Idées__
 - Différents types de ball
 - Tableau avec taux de capture
 - Plusieurs générations
-- Evolution des pokémons ?
+- Evolution des Pokémon ?
 - Possibilité d'activer un repousse
-    - Repousse spécial permettant de masquer les rencontres avec les pokémons obtenus
-- Checking périodique des pokémons obtenus (puis stockage en localStorage)
-- Ajouter plus de pokémons (151, dans la première version)
+    - Repousse spécial permettant de masquer les rencontres avec les Pokémon obtenus
+- Checking périodique des Pokémon obtenus (puis stockage en localStorage)
+- Ajouter plus de Pokémon (151, dans la première version)
 - Intégration dans SpawnKill ? Pub dans le topic ? Pub dans la signature ? o/
 - Version JVForum
