@@ -26,7 +26,7 @@ class EncounterGenerator {
      *        Voir #setPokemonRepartitionList() pour plus d'informations.
      * @param float wantedEncounterRate Taux de rencontre global souhaité.
      */
-    public function __construct($pokemonRepartitionList, $wantedEncounterRate) {
+    public function __construct($pokemonRepartitionList, $wantedEncounterRate = 1) {
         $this->setPokemonRepartitionList($pokemonRepartitionList);
         $this->setWantedEncounterRate($wantedEncounterRate);
         $this->update();

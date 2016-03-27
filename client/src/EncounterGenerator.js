@@ -11,7 +11,7 @@ var shuffle = require('array-shuffle');
  */
 var EncounterGenerator = function(pokemonRepartitionList, wantedEncounterRate) {
     this.setPokemonRepartitionList(pokemonRepartitionList);
-    this.setWantedEncounterRate(wantedEncounterRate);
+    this.setWantedEncounterRate(wantedEncounterRate || 1);
     this.update();
 };
 
