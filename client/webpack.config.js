@@ -6,4 +6,9 @@ module.exports = {
         path: path.join(__dirname, '/dist'),
         filename: 'tmp-pk.user.js',
     },
+    module: {
+        loaders: [
+            { test: /\.css$/, loader: 'style!css' },
+        ],
+    },
 };
