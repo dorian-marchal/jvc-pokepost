@@ -39,6 +39,7 @@
     "grant": [
       "GM_addStyle"
     ],
+    "connect": "spawnkill.fr",
     "run-at": "document-start"
   }
 }
