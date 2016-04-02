@@ -202,9 +202,7 @@
     "no-this-before-super": 1, //disallow use of this/super before calling super() in constructors.
     "object-shorthand": 1, // (see Babel section) require method and property shorthand syntax for object literals
     "prefer-const": 1, //suggest using const declaration for variables that are never modified after declared
-    "prefer-reflect": 1, //suggest using Reflect methods where applicable
     "prefer-spread": 1, //suggest using the spread operator instead of .apply().
-    "prefer-template": 1, //suggest using template literals instead of strings concatenation
     "require-yield": 0, //disallow generator functions that do not have yield
 
     /* Legacy */
