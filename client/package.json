@@ -24,7 +24,7 @@
     "gulp-uglify": "^1.5.3",
     "lodash": "^4.6.1",
     "should": "^8.2.2",
-    "userscript-css-loader": "^0.1.0",
+    "simple-css-loader": "^0.1.0",
     "userscript-header": "^0.2.0",
     "webpack-stream": "^3.1.0",
     "yargs": "^4.3.2"
@@ -38,9 +38,7 @@
     "author": "Spixel_",
     "namespace": "http://www.spawnkill.fr",
     "match": "*://*.jeuxvideo.com/*",
-    "grant": [
-      "GM_addStyle"
-    ],
+    "grant": "none",
     "connect": "spawnkill.fr",
     "run-at": "document-start"
   }

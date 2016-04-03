@@ -8,7 +8,7 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.css$/, loader: 'userscript-css' },
+            { test: /\.css$/, loader: 'simple-css' },
         ],
     },
 };
