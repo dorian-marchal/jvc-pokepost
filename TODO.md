@@ -1,14 +1,16 @@
 # Quick Roadmap
 - [x] Déterminer qu'on est sur une page de nouveau message
 - [x] Détecter que le message est éligible
+- [x] Définir le format de stockage des pokémons à rencontrer (partage client / serveur)
+- [ ] Définir le format de stockage des rencontres et captures en localStorage
+- [ ] vérifier que le post n'a pas déjà été utilisé pour une rencontre.
+- [ ] vérifier que le quota de rencontre n'a pas déjà été atteint.
 - [ ] Ne pas charger le script dans les iframes
-- [ ] Définir le format de stockage des pokémons à rencontrer (partage client / serveur)
 - [ ] Définir l'emplacement de la rencontre
 - [ ] Définir l'UX générale de la rencontre :
     - Rencontre
     - Capture (réussie ? ratée ?)
     - Pas capture
-- [ ] Définir le format de stockage des pokémons
 - [ ] Réfléchir à une structure évolutive pour le script
 - [ ] Définir l'emplacement du Pokédex
 - [ ] Définir l'UX générale du Pokédex
@@ -47,6 +49,10 @@
     - Remotes
 
 # v0.2
+- [ ] Déplacer la configuration dans `share` (+ update la doc)
+- [ ] Seeder le tableau de rencontre ET autoriser le build depuis un objet sérialisé (partagé entre le client et le serveur).
+    - Seed : Permet de reproduire le même tableau de rencontres à chaque build
+    - Sérialisation : Permet d'éviter de recalculer le tableau pour chaque rencontre
 - [ ] ES6
 - [ ] Authentification
 - [ ] Pokédex voir le pokédex d'un utilisateur dans son profil (icône pokédex)
