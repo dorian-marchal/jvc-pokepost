@@ -9,6 +9,7 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.css$/, loader: 'simple-css' },
+            { test: /\.json$/, loader: 'json' },
         ],
     },
 };

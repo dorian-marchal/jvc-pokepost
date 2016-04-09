@@ -41,3 +41,6 @@ Run `gulp test`.
 
 #### Linting
 Run `gulp lint`.
+
+## Configuration
+The script configuration is in `client/src/config/pokemon-data.js`.

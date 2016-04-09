@@ -1,5 +1,7 @@
 require('./css/style.css');
 
-var EncounterGenerator = require('./EncounterGenerator');
+var Pokepost = require('./Pokepost');
 
-console.log(new EncounterGenerator({}));
+document.addEventListener('DOMContentLoaded', function() {
+    new Pokepost().init();
+});

@@ -1,2 +1,3 @@
 /node_modules
-/dist/jvc-pokepost.user.js
+/dist
+/src/config/pokemon-data.json

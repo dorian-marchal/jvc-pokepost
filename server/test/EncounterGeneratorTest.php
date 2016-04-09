@@ -8,33 +8,24 @@ class EncounterGeneratorTest extends PHPUnit_Framework_TestCase {
     const MEDIUM_FACTOR = 6;
     const COMMON_FACTOR = 8;
 
-    private $pokemonRepartition = [
-        self::COMMON_FACTOR => [
-            'Rattata',
-            'Roucool',
-            'Chenipan',
-        ],
-        self::MEDIUM_FACTOR => [
-            'Piafabec',
-            'Pikachu',
-        ],
-        self::RARE_FACTOR => [
-            'Tauros',
-        ],
-        self::LEGENDARY_FACTOR => [
-            'Artikodin',
-            'Sulfura',
-            'Electhor',
-        ],
-        self::NEAR_IMPOSSIBLE_FACTOR => [
-            'Mew',
-        ],
-    ];
+    private $pokemonRepartition = [];
 
     /** @var \EncounterGenerator */
     private $generator = null;
 
     public function __construct() {
+        $this->pokemonRepartition = json_decode('[
+            { "id": "Rattata", "frequencyFactor": 8 },
+            { "id": "Roucool", "frequencyFactor": 8 },
+            { "id": "Chenipan", "frequencyFactor": 8 },
+            { "id": "Piafabec", "frequencyFactor": 6 },
+            { "id": "Pikachu", "frequencyFactor": 6 },
+            { "id": "Tauros", "frequencyFactor": 4 },
+            { "id": "Artikodin", "frequencyFactor": 2 },
+            { "id": "Sulfura", "frequencyFactor": 2 },
+            { "id": "Electhor", "frequencyFactor": 2 },
+            { "id": "Mew", "frequencyFactor": 1 }
+        ]');
         $this->generator = new EncounterGenerator($this->pokemonRepartition, 0.15);
     }
 
@@ -45,9 +36,16 @@ class EncounterGeneratorTest extends PHPUnit_Framework_TestCase {
 
     public function testSetPokemonRepartitionListBadFactors() {
         $this->setExpectedException('InvalidArgumentException');
-        $this->generator->setPokemonRepartitionList([
-            0.5 => ['test'],
-        ]);
+        $this->generator->setPokemonRepartitionList(json_decode('[
+            { "frequencyFactor" : 0.5, "id": "test" }
+        ]'));
+    }
+
+    public function testSetPokemonRepartitionListMissingIds() {
+        $this->setExpectedException('InvalidArgumentException');
+        $this->generator->setPokemonRepartitionList(json_decode('[
+            { "frequencyFactor" : 1 }
+        ]'));
     }
 
     public function testSetWantedEncounterRate() {
@@ -73,38 +71,34 @@ class EncounterGeneratorTest extends PHPUnit_Framework_TestCase {
     public function testGetPokemonRatio() {
         // Compte le nombre de Pokémon pour calculer le ratio manuellement.
         $pokemonCount = 0;
-        foreach ($this->pokemonRepartition as $frequencyFactor => $pokemonIds) {
-            $pokemonCount += $frequencyFactor * count($pokemonIds);
+        foreach ($this->pokemonRepartition as $pokemon) {
+            $pokemonCount += $pokemon->frequencyFactor;
         }
 
         // Vérifie le ratio de chaque Pokémon.
-        foreach ($this->pokemonRepartition as $frequencyFactor => $pokemonIds) {
+        foreach ($this->pokemonRepartition as $pokemon) {
             // Si le taux de rencontre est nul, le ratio est nul, lui-aussi.
             if ($this->generator->getWantedEncounterRate() === 0) {
                 $expectedRatio = 0;
             } else {
-                $expectedRatio = $frequencyFactor / $pokemonCount;
+                $expectedRatio = $pokemon->frequencyFactor / $pokemonCount;
             }
-            foreach ($pokemonIds as $pokemonId) {
-                $this->assertEquals($expectedRatio, $this->generator->getPokemonRatio($pokemonId));
-            }
+            $this->assertEquals($expectedRatio, $this->generator->getPokemonRatio($pokemon->id));
         }
     }
 
     public function testGetPokemonEncounterRate() {
         // Compte le nombre de Pokémon pour calculer le taux de rencontre manuellement.
         $pokemonCount = 0;
-        foreach ($this->pokemonRepartition as $frequencyFactor => $pokemonIds) {
-            $pokemonCount += $frequencyFactor * count($pokemonIds);
+        foreach ($this->pokemonRepartition as $pokemon) {
+            $pokemonCount += $pokemon->frequencyFactor;
         }
 
         // Vérifie le taux de rencontre de chaque Pokémon.
-        foreach ($this->pokemonRepartition as $frequencyFactor => $pokemonIds) {
-            $ratio = $frequencyFactor / $pokemonCount;
+        foreach ($this->pokemonRepartition as $pokemon) {
+            $ratio = $pokemon->frequencyFactor / $pokemonCount;
             $expectedRate = $ratio * $this->generator->getActualEncounterRate();
-            foreach ($pokemonIds as $pokemonId) {
-                $this->assertEquals($expectedRate, $this->generator->getPokemonEncounterRate($pokemonId));
-            }
+            $this->assertEquals($expectedRate, $this->generator->getPokemonEncounterRate($pokemon->id));
         }
     }
 
@@ -114,16 +108,14 @@ class EncounterGeneratorTest extends PHPUnit_Framework_TestCase {
     public function testEncounterProportion() {
         $DELTA = 0.0000001;
         $encounters = $this->simulateEncounters();
-        foreach ($this->pokemonRepartition as $frequencyFactor => $pokemonIds) {
-            foreach ($pokemonIds as $pokemonId) {
-                $expectedRate = $this->generator->getPokemonEncounterRate($pokemonId);
-                $this->assertEquals(
-                    $expectedRate,
-                    $encounters[$pokemonId]['encounterRate'],
-                    '',
-                    $DELTA
-                );
-            }
+        foreach ($this->pokemonRepartition as $pokemon) {
+            $expectedRate = $this->generator->getPokemonEncounterRate($pokemon->id);
+            $this->assertEquals(
+                $expectedRate,
+                $encounters[$pokemon->id]['encounterRate'],
+                '',
+                $DELTA
+            );
         }
     }
 

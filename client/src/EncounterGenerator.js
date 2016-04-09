@@ -33,13 +33,13 @@ EncounterGenerator.prototype._wantedEncounterRate = 1;
 /**
  * Modifie la liste de répartition des Pokémon.
  *
- * @param {object} pokemonRepartitionList Liste des différents id de Pokémon
- * classés par coefficient de fréquence, de la forme :
- * {
- *     1: ['Mew', 'Mewtwo'], // coefficient 1, les plus rares
- *     4: ['Pikachu'], // 4 fois plus fréquents que ceux du dessus
- *     10: ['Rattata', 'Roucool'], // 10 fois plus fréquents que ceux du dessus
- * }
+ * @param {Array} pokemonRepartitionList Liste des différents Pokémon
+ * rencontrables, de la forme :
+ * [
+ *     { id: 'Mew', frequencyFactor: 1 }, // coefficient 1, le plus rare
+ *     { id: 'Pikachu', frequencyFactor: 4 }, // 4 fois plus fréquent que Mew
+ *     { id: 'Rattata', frequencyFactor: 10 }, // 10 fois plus fréquent que Mew
+ * ]
  * Les coefficients doivent être des entiers positifs.
  *
  * @throws {Error} si la liste passée est mal formée.
@@ -56,19 +56,23 @@ EncounterGenerator.prototype.setPokemonRepartitionList = function(pokemonReparti
  * @throws {Error}
  */
 EncounterGenerator.prototype._checkRepartitionList = function(pokemonRepartitionList) {
-    if (typeof pokemonRepartitionList !== 'object') {
-        throw new Error('Repartition list must be an object.');
+    if (pokemonRepartitionList.constructor !== Array) {
+        throw new Error('Repartition list must be an array.');
     }
-    for (var frequencyFactor in pokemonRepartitionList) {
-
-        // Les coefficients de fréquences sont des chaînes, on les converti en entier.
-        var numberFactor = Number(frequencyFactor);
+    pokemonRepartitionList.forEach(function(pokemon) {
 
         // x % 1 !== 0 est vrai si x n'est pas un entier.
-        if (typeof numberFactor !== 'number' || numberFactor % 1 !== 0 || numberFactor < 1) {
+        if (typeof pokemon.frequencyFactor !== 'number' ||
+            pokemon.frequencyFactor % 1 !== 0 ||
+            pokemon.frequencyFactor < 1
+        ) {
             throw new Error('Frequency factors must be positive integers.');
         }
-    }
+
+        if (typeof pokemon.id === 'undefined') {
+            throw new Error('Pokemon ID must be defined.');
+        }
+    });
 };
 
 /**
@@ -117,19 +121,11 @@ EncounterGenerator.prototype._generateEncounterPossibilities = function() {
         return;
     }
 
-    var that = this;
-    var addEncounterPossibilities = function(amountToAdd, pokemonIdsToAdd) {
-        pokemonIdsToAdd.forEach(function(pokemonId) {
-            for (var i = 0; i < amountToAdd; i++) {
-                that._encounterPossibilities.push(pokemonId);
-            }
-        });
-    };
-
-    for (var frequencyFactor in this._pokemonRepartitionList) {
-        var pokemonIds = this._pokemonRepartitionList[frequencyFactor];
-        addEncounterPossibilities(Number(frequencyFactor), pokemonIds);
-    }
+    this._pokemonRepartitionList.forEach(function(pokemon) {
+        for (var i = 0; i < pokemon.frequencyFactor; i++) {
+            this._encounterPossibilities.push(pokemon.id);
+        }
+    }.bind(this));
 
     // Ajoute des éléments null à la liste de rencontre pour réduire le
     // taux de rencontre à `wantedEncounterRate`.
@@ -142,7 +138,7 @@ EncounterGenerator.prototype._generateEncounterPossibilities = function() {
 
     // Mélange le tableau de rencontres pour éviter les cycles de rencontre
     // trop visibles.
-    shuffle(this._encounterPossibilities);
+    this._encounterPossibilities = shuffle(this._encounterPossibilities);
 };
 
 /**
