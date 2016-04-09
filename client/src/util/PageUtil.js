@@ -17,7 +17,7 @@ var PageUtil = {
      * @return {Post|null} dernier post de la page,
      *         null s'il n'y a pas de nouveau post valable sur la page.
      */
-    getNewPost: function(postMaxAgeMs) {
+    getNewlySentPost: function(postMaxAgeMs) {
         var targetedPost;
 
         try {
