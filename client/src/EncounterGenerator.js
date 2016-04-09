@@ -138,7 +138,7 @@ EncounterGenerator.prototype._generateEncounterPossibilities = function() {
 
     // Mélange le tableau de rencontres pour éviter les cycles de rencontre
     // trop visibles.
-    shuffle(this._encounterPossibilities);
+    this._encounterPossibilities = shuffle(this._encounterPossibilities);
 };
 
 /**
