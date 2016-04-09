@@ -35,12 +35,12 @@ class EncounterGenerator {
     /**
      * Modifie la liste de répartition des Pokémon.
      *
-     * @param array $pokemonRepartitionList Liste des différents id de Pokémon
-     * classés par coefficient de fréquence, de la forme :
+     * @param array $pokemonRepartitionList Liste des différents Pokémon
+     * rencontrables, de la forme :
      * [
-     *     1 => ['Mew', 'Mewtwo'], // coefficient 1, les plus rares
-     *     4 => ['Pikachu'], // 4 fois plus fréquents que ceux du dessus
-     *     10 => ['Rattata', 'Roucool'], // 10 fois plus fréquents que ceux du dessus
+     *     Object { id: 'Mew', frequencyFactor: 1 }, // coefficient 1, le plus rare
+     *     Object { id: 'Pikachu', frequencyFactor: 4 }, // 4 fois plus fréquent que Mew
+     *     Object { id: 'Rattata', frequencyFactor: 10 }, // 10 fois plus fréquent que Mew
      * ]
      * Les coefficients doivent être des entiers positifs.
      *
@@ -60,9 +60,13 @@ class EncounterGenerator {
             throw new \InvalidArgumentException('Repartition list must be an array.');
         }
 
-        foreach (array_keys($pokemonRepartitionList) as $frequencyFactor) {
-            if (!is_int($frequencyFactor) || $frequencyFactor < 1) {
+        foreach ($pokemonRepartitionList as $pokemon) {
+            if (!is_int($pokemon->frequencyFactor) || $pokemon->frequencyFactor < 1) {
                 throw new \InvalidArgumentException('Frequency factors must be positive integers.');
+            }
+
+            if (empty($pokemon->id)) {
+                throw new \InvalidArgumentException('Pokemon ID must be defined.');
             }
         }
     }
@@ -112,11 +116,9 @@ class EncounterGenerator {
             return;
         }
 
-        foreach ($this->pokemonRepartitionList as $frequencyFactor => $pokemonIds) {
-            foreach ($pokemonIds as $pokemonId) {
-                for ($i = 0; $i < $frequencyFactor; $i++) {
-                    $this->encounterPossibilities[] = $pokemonId;
-                }
+        foreach ($this->pokemonRepartitionList as $pokemon) {
+            for ($i = 0; $i < $pokemon->frequencyFactor; $i++) {
+                $this->encounterPossibilities[] = $pokemon->id;
             }
         }
 

@@ -41,47 +41,44 @@ describe('EncounterGenerator', function() {
 
     beforeEach(function() {
         var ENCOUNTER_RATE = 0.15;
+
         var NEAR_IMPOSSIBLE_FACTOR = 1;
         var LEGENDARY_FACTOR = 2;
         var RARE_FACTOR = 4;
         var MEDIUM_FACTOR = 6;
         var COMMON_FACTOR = 8;
 
-        pokemonRepartition = {};
-        pokemonRepartition[COMMON_FACTOR] = [
-            'Rattata',
-            'Roucool',
-            'Chenipan',
-        ];
-        pokemonRepartition[MEDIUM_FACTOR] = [
-            'Piafabec',
-            'Pikachu',
-        ];
-        pokemonRepartition[RARE_FACTOR] = [
-            'Tauros',
-        ];
-        pokemonRepartition[LEGENDARY_FACTOR] = [
-            'Artikodin',
-            'Sulfura',
-            'Electhor',
-        ];
-        pokemonRepartition[NEAR_IMPOSSIBLE_FACTOR] = [
-            'Mew',
+        pokemonRepartition = [
+            { id: 'Rattata', frequencyFactor: COMMON_FACTOR },
+            { id: 'Roucool', frequencyFactor: COMMON_FACTOR },
+            { id: 'Chenipan', frequencyFactor: COMMON_FACTOR },
+            { id: 'Piafabec', frequencyFactor: MEDIUM_FACTOR },
+            { id: 'Pikachu', frequencyFactor: MEDIUM_FACTOR },
+            { id: 'Tauros', frequencyFactor: RARE_FACTOR },
+            { id: 'Artikodin', frequencyFactor: LEGENDARY_FACTOR },
+            { id: 'Sulfura', frequencyFactor: LEGENDARY_FACTOR },
+            { id: 'Electhor', frequencyFactor: LEGENDARY_FACTOR },
+            { id: 'Mew', frequencyFactor: NEAR_IMPOSSIBLE_FACTOR },
         ];
 
         generator = new EncounterGenerator(pokemonRepartition, ENCOUNTER_RATE);
     });
 
     describe('#setPokemonRepartitionList()', function() {
-        it('should fail when argument is not an object', function() {
+        it('should fail when argument is not an array', function() {
             (function() {
                 generator.setPokemonRepartitionList('test');
-            }).should.throw('Repartition list must be an object.');
+            }).should.throw('Repartition list must be an array.');
         });
         it('should fail when factors are not positive integers', function() {
             (function() {
-                generator.setPokemonRepartitionList({ 0.5: ['test'] });
+                generator.setPokemonRepartitionList([{ frequencyFactor: 0.5, id: 'test' }]);
             }).should.throw('Frequency factors must be positive integers.');
+        });
+        it('should fail when ids are not set', function() {
+            (function() {
+                generator.setPokemonRepartitionList([{ frequencyFactor: 1 }]);
+            }).should.throw('Pokemon ID must be defined.');
         });
     });
 
@@ -118,12 +115,12 @@ describe('EncounterGenerator', function() {
 
             // Compte le nombre de Pokémon pour calculer le ratio manuellement.
             var pokemonCount = 0;
-            _(pokemonRepartition).forEach(function(pokemonIds, frequencyFactor) {
-                pokemonCount += frequencyFactor * pokemonIds.length;
+            pokemonRepartition.forEach(function(pokemon) {
+                pokemonCount += pokemon.frequencyFactor;
             });
 
             // Vérifie le ratio de chaque Pokémon.
-            _(pokemonRepartition).forEach(function(pokemonIds, frequencyFactor) {
+            pokemonRepartition.forEach(function(pokemon) {
                 var expectedRatio;
 
                 // Si le taux de rencontre est nul, le ratio est nul, lui-aussi.
@@ -131,11 +128,9 @@ describe('EncounterGenerator', function() {
                     expectedRatio = 0;
                 }
                 else {
-                    expectedRatio = frequencyFactor / pokemonCount;
+                    expectedRatio = pokemon.frequencyFactor / pokemonCount;
                 }
-                pokemonIds.forEach(function(pokemonId) {
-                    generator.getPokemonRatio(pokemonId).should.be.eql(expectedRatio);
-                });
+                generator.getPokemonRatio(pokemon.id).should.be.eql(expectedRatio);
             });
         });
     });
@@ -145,17 +140,15 @@ describe('EncounterGenerator', function() {
 
             // Compte le nombre de Pokémon pour calculer le taux de rencontre manuellement.
             var pokemonCount = 0;
-            _(pokemonRepartition).forEach(function(pokemonIds, frequencyFactor) {
-                pokemonCount += frequencyFactor * pokemonIds.length;
+            pokemonRepartition.forEach(function(pokemon) {
+                pokemonCount += pokemon.frequencyFactor;
             });
 
             // Vérifie le taux de rencontre de chaque Pokémon.
-            _(pokemonRepartition).forEach(function(pokemonIds, frequencyFactor) {
-                var ratio = frequencyFactor / pokemonCount;
+            pokemonRepartition.forEach(function(pokemon) {
+                var ratio = pokemon.frequencyFactor / pokemonCount;
                 var expectedRate = ratio * generator.getActualEncounterRate();
-                pokemonIds.forEach(function(pokemonId) {
-                    generator.getPokemonEncounterRate(pokemonId).should.be.eql(expectedRate);
-                });
+                generator.getPokemonEncounterRate(pokemon.id).should.be.eql(expectedRate);
             });
         });
     });
@@ -167,11 +160,9 @@ describe('EncounterGenerator', function() {
         it('should be right for each Pokémon', function() {
             var DELTA = 0.0000001;
             var encounters = simulateEncounters();
-            _(pokemonRepartition).forEach(function(pokemonIds) {
-                pokemonIds.forEach(function(pokemonId) {
-                    var expectedRate = generator.getPokemonEncounterRate(pokemonId);
-                    encounters[pokemonId].encounterRate.should.be.approximately(expectedRate, DELTA);
-                });
+            pokemonRepartition.forEach(function(pokemon) {
+                var expectedRate = generator.getPokemonEncounterRate(pokemon.id);
+                encounters[pokemon.id].encounterRate.should.be.approximately(expectedRate, DELTA);
             });
         });
     });
