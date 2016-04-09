@@ -10,6 +10,13 @@ var FrequencyFactor = {
 module.exports = {
 
     /**
+     * Âge maximum d'un post en millisecondes pour qu'il soit considéré comme
+     * "récent" et donc être éligible pour une rencontre.
+     * @type {Number}
+     */
+    postMaxAgeMs: 300000, // 5 * 60 * 1000 = 5 minutes
+
+    /**
      * Probabilité de rencontrer un Pokémon à chaque post
      * (voir le constructeur d'EncounterGenerator ).
      * @type {Number}
