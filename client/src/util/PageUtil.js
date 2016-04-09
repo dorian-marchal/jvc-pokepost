@@ -1,4 +1,4 @@
-var Post = require('./Post');
+var Post = require('../Post');
 var UserUtil = require('./UserUtil');
 
 var PageUtil = {
