@@ -1,3 +1,8 @@
+/**
+ * Configuration générale de Poképost.
+ * Cette configuration est compilée vers `./pokemon-data.json` lors du build.
+ */
+
 var FrequencyFactor = {
     VeryCommon: 12,
     Common: 8,
