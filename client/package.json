@@ -27,6 +27,7 @@
     "lodash": "^4.6.1",
     "should": "^8.2.2",
     "simple-css-loader": "^0.1.0",
+    "strip-loader": "^0.1.2",
     "userscript-header": "^0.2.0",
     "webpack-stream": "^3.1.0",
     "yargs": "^4.3.2"

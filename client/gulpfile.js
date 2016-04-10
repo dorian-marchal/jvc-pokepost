@@ -45,6 +45,13 @@ gulp.task('build', ['build-config'], function() {
     if (argv.dev) {
         webpackConfig.entry = './src/index.dev.js';
     }
+    else {
+        // Strip out console.log in production.
+        webpackConfig.module.loaders.push({
+            test: /\.js$/,
+            loader: 'strip?strip[]=console.log',
+        });
+    }
 
     return gulp.src(webpackConfig.entry)
         .pipe(plumber())
