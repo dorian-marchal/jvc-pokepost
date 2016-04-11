@@ -29,7 +29,7 @@ __Dev__
 - gulp v3+
 
 #### Installation
-Clone the repo, move in the `client` driectory and execute `npm install`.
+Clone the repo, move in the `client` directory and execute `npm install`.
 
 #### Build
 - __Simple build__ : run `gulp build`.
@@ -44,3 +44,8 @@ Run `gulp lint`.
 
 ## Configuration
 The script configuration is in `client/src/config/pokemon-data.js`.
+
+## Tools
+
+#### Installation
+Clone the repo, move in the `tool` directory and execute `npm install`.

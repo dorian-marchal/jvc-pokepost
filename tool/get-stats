@@ -1,0 +1,123 @@
+#!/usr/bin/env node
+
+/**
+ * Get Pokémon stats from CLI (encounter rate, catch rate, ...).
+ * Client must be build for this script to work.
+ */
+
+var _ = require('lodash');
+var argv = require('yargs').argv;
+var chalk = require('chalk');
+var EncounterGenerator = require('../client/src/EncounterGenerator');
+var PokepostConfig = require('../client/src/config/pokemon-data.json');
+var Table = require('cli-table2');
+
+var generator = new EncounterGenerator(PokepostConfig.pokemonList, PokepostConfig.globalEncounterRate);
+
+function printTable(tableData) {
+    var table = new Table();
+    _(tableData).forEach(function(value, key) {
+        var el = {};
+        el[chalk.cyan(key)] = value;
+        table.push(el);
+    });
+    console.log(table.toString());
+}
+
+function printUsage() {
+    console.log('\nUsage:');
+    console.log('  --general: show general Poképost stats');
+    console.log('  --pokemon=<pokemonId>: show Pokémon stats');
+    console.log('  --groups: show stats for each groups of Pokémon');
+    console.log('\nNote: client must be build for this script to work.');
+}
+
+function getPokemonData(pokemonId) {
+    return _.find(PokepostConfig.pokemonList, function(pokemon) {
+        return pokemon.id === pokemonId;
+    });
+}
+
+function toPercent(rate) {
+    var factorForRound = 10000;
+    var percentFactor = 100;
+    return Math.round(rate * factorForRound) * percentFactor / factorForRound + '%';
+}
+
+try {
+    if (argv.general) {
+
+        printTable({
+            'Global encounter rate': toPercent(generator.getActualEncounterRate()),
+            'Pokémon count': PokepostConfig.pokemonList.length,
+            'Cycle length': generator.getCycleLength(),
+        });
+    }
+    else if (argv.groups) {
+
+        var totalFactors = 0;
+        var groups = PokepostConfig.pokemonList.reduce(function(grps, pokemon) {
+            grps[pokemon.frequencyFactor] = grps[pokemon.frequencyFactor] || {
+                pokemonList: [],
+                individualRate: generator.getPokemonEncounterRate(pokemon.id),
+            };
+            totalFactors += pokemon.frequencyFactor;
+            grps[pokemon.frequencyFactor].pokemonList.push(pokemon.name + chalk.gray(':' + pokemon.no));
+            return grps;
+        }, {});
+
+        var table = new Table({
+            style: { head: ['cyan'] },
+            head: ['Individual\nencounter\nrate', 'Group\nencounter\nrate', 'Pokémon list'],
+        });
+
+        var sortedFrequencyFactors = Object.keys(groups).sort(function(a, b) {
+            return Number(a) < Number(b);
+        });
+
+        sortedFrequencyFactors.forEach(function(frequencyFactor) {
+            var group = groups[frequencyFactor];
+
+            // Format the Pokémon list.
+            var pokemonListString = group.pokemonList
+                .toString()
+                .replace(/((?:.*?,){4})/g, '$1\n')
+                .replace(/,/g, ' ')
+            ;
+
+            var groupRate = frequencyFactor * group.pokemonList.length / totalFactors;
+
+            table.push([
+                toPercent(group.individualRate),
+                toPercent(groupRate),
+                pokemonListString,
+            ]);
+        });
+
+        console.log(table.toString());
+    }
+    else if (argv.pokemon) {
+        var pokemon = getPokemonData(argv.pokemon);
+
+        if (typeof pokemon === 'undefined') {
+            throw new Error('Unknown Pokémon: ' + argv.pokemon);
+        }
+
+        var pokemonEncounterRate = generator.getPokemonEncounterRate(pokemon.id);
+        printTable({
+            'Name': pokemon.name,
+            'N°': pokemon.no,
+            'Frequency factor': pokemon.frequencyFactor,
+            'Encounter rate': toPercent(pokemonEncounterRate),
+            'Catch rate': toPercent(pokemon.captureRate),
+            'Getting rate': toPercent(pokemonEncounterRate * pokemon.captureRate),
+        });
+    }
+    else {
+        printUsage();
+    }
+}
+catch (err) {
+    console.log(err.message);
+    printUsage();
+}
